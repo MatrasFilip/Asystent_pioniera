@@ -1,0 +1,192 @@
+main
+{
+    color: #5b3c88;
+    text-align: center;
+}
+
+h1
+{
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#stoperControl
+{
+    margin: auto;
+    height: 38%;
+}
+
+#time
+{
+    font-weight: 900;
+    color: black;
+    font-size: 200%;
+    margin-top: 20px;
+}
+
+#stoper
+{
+    border-bottom: solid 2px #5b3c88;
+    border-top: solid 2px #5b3c88;
+    padding-bottom: 20px;
+    margin: 40px 0;
+    height: 300px;
+}
+
+h3#data
+{
+    float: right;
+    color: #8b8b8b;
+}
+
+.numbInput, .noteInput
+{
+    width: 48px;
+    border: solid 2px #5b3c88;
+    border-radius: 5px;
+    font-size: 110%;
+    height: 30px;
+    float: left;
+}
+
+.numbInput:focus, .noteInput:focus
+{
+   outline: none; 
+}
+
+.property input[type="time"]
+{
+    width: 78px;
+    border: none;
+    font-size: 110%;
+    height: 30px;
+    float: left;
+    background-color: inherit;
+}
+
+.property input[type="time"]:focus
+{
+    outline: none;
+}
+
+.property .label
+{
+    font-weight: 900;
+    display: block;
+    float: left;
+    width: 210px;
+    margin-bottom: 10px;
+}
+
+.property .comm
+{
+    font-size: 70%;
+    font-weight: 500;
+}
+
+.property
+{
+    font-size: 110%;
+    height: 40px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+#notes
+{
+    border: solid 2px #5b3c88;
+    padding: 1px;
+    border-radius: 5px;
+    width: 250px;
+}
+
+#timeAlert
+{
+    position: fixed;
+    margin-left: calc(22vw - 40px);
+    width: 62vw;
+    padding: 20px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0px 0px 100px 30px rgba(66, 68, 90, 1);
+    font-weight: 900;
+    display: none;
+}
+
+.visibleTimeAlert
+{
+    display: block!important;
+}
+
+#timePoints
+{
+    margin: auto;
+    margin-top: 60px;
+    text-align: left;
+    font-weight: 900;
+    font-size: 115%;
+}
+
+#timePoints input[type='time']
+{
+    width: 100px;
+    float: right;
+    background-color: white;
+    border: none;
+    font-size: 100%;
+}
+
+#timePoints input[type='time']:focus
+{
+    outline: none;
+}
+
+#timeScore
+{
+    margin-top: 50px;
+    margin-bottom: 60px;
+    font-size: 121%;
+    color: black;
+}
+
+#timeButton
+{
+    float: right;
+    text-align: right;
+    font-weight: 900;
+    font-size: 105%;
+}
+
+#ldpbButton
+{
+    float: left;
+    text-align: left;
+    font-weight: 900;
+    font-size: 105%;
+}
+
+#ldpbButton img
+{
+    height: 20px;
+    margin-left: 10px;
+    position:relative;
+    bottom: -4px;
+}
+
+@media (max-width: 260px)
+{
+    #data
+    {
+        display: none;
+    }
+}
+
+@media (max-height: 500px)
+{
+    #timeAlert
+    { 
+        top: -40px;
+        transform: scale(0.75);
+        z-index: 1;
+    }
+}

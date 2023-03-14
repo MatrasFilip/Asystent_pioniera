@@ -1,0 +1,156 @@
+#checkMonth
+{
+    border-bottom: solid 2px #5b3c88;
+    height: 20px;
+    text-align: center;
+    margin: auto;
+    width: 100%;
+    padding-bottom: 3px;
+}
+
+.monthLabel
+{
+    float: left;
+    font-weight: 900;
+    color: #8b8b8b;
+    margin: auto;
+    text-align: center;
+    width: 33.33%;
+}
+
+#currentMonth
+{
+    color: black;
+}
+
+#calendar
+{
+    margin-top: 20px;
+    border-bottom: solid 2px #5b3c88;
+    padding-bottom: 20px;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+}
+#calendar  td
+{
+    width: calc(100%/7);
+    text-align: center;
+}
+
+#calendar  td div
+{
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+    margin: auto;
+    text-align: center;
+}
+
+#calendar  td:nth-child(6), #calendar  td:nth-child(7)
+{
+    color: #777777;
+}
+
+.today
+{
+    border-radius: 100%;
+    border: solid 2px #5b3c88;
+    font-weight: 900;
+    color: #5b3c88;
+}
+
+.activeDay
+{
+    border-radius: 100%;
+    background-color: #5b3c88 !important;
+    color: white !important;
+}
+
+.dayWithNotes
+{
+    border-radius: 100%;
+    background-color: #DEBEEE;
+}
+
+.notesForDay
+{
+    background-image: url("../img/notesForDay.png") !important;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-position-y: 80%;
+    background-position-x: 55%;
+}
+
+#calendar  tr:first-child
+{
+    font-size: 10px;
+}
+
+.property
+{
+    border-radius: 15px;
+    padding: 5px;
+    margin: 5px;
+    background-color: #eeeeee;
+    height: auto;
+    clear: both;
+}
+
+.propName
+{
+    float: left;
+    border-right: solid 4px #5b3c88;
+    padding: 5px;
+    padding-left: 0px;
+    border-radius: 2px;
+    font-weight: 900;
+    color:#5b3c88;
+    font-size: 18px;
+    width: 61.8%;
+    height: 20px;
+}
+
+.propValue
+{
+    float: left;
+    margin: 0;
+    padding: 0;
+    margin-left: 2px;
+    height: 30px;
+    border: none;
+    background-color: #eeeeee;
+    font-size: 18px;
+    color: black;
+    width: calc(38.2% - 10px - 5px - 4px - 2px - 1px);
+    line-height: 30px;
+}
+
+#notesLabel
+{
+    width: calc(40% - 10px - 5px - 4px - 2px - 1px);
+}
+
+.property #notes
+{
+    width: 60%;
+}
+
+.propValue:focus
+{
+   outline: none; 
+}
+
+.down
+{
+    clear: both;
+    width: 0;
+    height:0;
+    margin: 0;
+    padding: 0;
+}
+
+.otherDays
+{
+    color: #e0e0e0!important;
+}

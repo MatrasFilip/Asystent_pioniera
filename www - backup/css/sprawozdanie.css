@@ -1,0 +1,115 @@
+main
+{
+    margin: auto;
+    text-align: center;
+    color: #5b3c88;
+}
+
+#raportH1
+{
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 0;
+    font-size: 6vmin;
+    text-align: center;
+}
+
+#raportH2
+{
+    margin: 0;
+    margin-top: 25px;
+    padding: 0;
+    font-size: 5.5vmin;
+    text-align: left;
+}
+
+#raportH2 > span
+{
+    color: black;
+    font-weight: bolder;
+}
+
+#raportTab
+{
+    margin-top: 15px;
+    border-collapse: collapse;
+    border: solid 2px #5b3c88;
+    width: 100%;
+}
+
+th, td
+{
+    border: solid 2px #5b3c88;
+    
+}
+
+
+td:nth-child(2)
+{
+    color: black;
+    font-weight: bolder;
+    width: 15%;
+}
+
+#notes
+{
+    margin-top: 15px;
+    margin-bottom: 35px;
+    border: solid 2px #5b3c88;
+    width: calc(100% - 6px);
+    padding: 1px;
+    border-radius: 5px;
+    resize: none;
+}
+
+#notes:focus
+{
+    outline: none;
+}
+
+#minutes
+{
+    border: solid 2px #5b3c88;
+    width: 82%;
+    height: 30px;
+    line-height: 30px;
+    margin: auto;
+    margin-top: 15px;
+    display: none;
+}
+
+#minutes #value
+{
+    color: black;
+    font-weight: bolder;
+    width: calc(15% - 6px);
+    float: right;
+    border-left: solid 2px #5b3c88;
+    height: 100%;
+}
+
+.ldpb
+{
+    border: solid 2px #5b3c88;
+    width: 82%;
+    height: 30px;
+    line-height: 30px;
+    margin: auto;
+    margin-top: 15px;
+    display: none;
+}
+
+.ldpb .value
+{
+    color: black;
+    font-weight: bolder;
+    width: calc(15% - 6px);
+    float: right;
+    border-left: solid 2px #5b3c88;
+    height: 100%;
+}
+
+.visible
+{
+    display: block!important;
+}
