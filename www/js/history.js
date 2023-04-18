@@ -132,7 +132,7 @@ function showYears()
     {
         year.addEventListener("click",()=>
         {
-            readCurrentMonthFromFile((parseInt(today.getMonth())+1) + "-" + year.innerHTML + ".txt", new Date(year.innerHTML+"-"+currentMonth.number+"-1"));
+            readCurrentMonthFromFile((parseInt(today.getMonth())+1) + "-" + year.innerHTML + ".json", new Date(year.innerHTML+"-"+currentMonth.number+"-1"));
         });
     });
 

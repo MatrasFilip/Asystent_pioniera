@@ -1,17 +1,10 @@
-var scrollYPosition = 0, touchXBufor, touchYBufor, text;
-
-function flatten(obj) {
-    var result = Object.create(obj);
-    for(var key in result) {
-        result[key] = result[key];
-    }
-    return result;
-}
+var scrollYPosition = 0, touchXBufor, touchYBufor;
 
 function buttons()
 {
     document.querySelectorAll("a.active").forEach(function (button)
     {
+        //button.style = "background-color: #b6b6b6; border-radius: 100px;";
         setTimeout(()=>{button.style = "background-color: inherit; border-radius: inherit;"}, 200);
     })
 }
@@ -26,45 +19,22 @@ Date.prototype.studies;
 Date.prototype.notes;
 Date.prototype.ldpbHours;
 Date.prototype.ldpbMinutes;
-Date.prototype.getProperty = function(property, scores)
+
+class DaysToSave
 {
-    var getted = false;
-    if (property == "remarks"|| property == "notes") var searchedProperty = "";
-    else searchedProperty = 0;
-    scores.forEach((date)=>
+    constructor(day)
     {
-        if (date.match(new RegExp("day:"+this.getDate()+",")))
-        {
-            if (property!="remarks")
-            {
-                if (property == "notes")
-                {
-                    if (date.match(/notes[\s\S]*&/)) searchedProperty = date.match(/notes[\s\S]*&/).toString().replace(/&$/, "").replace("notes:", "");
-                }
-                else
-                {
-                    date = date.split(",");
-                    date.forEach((prop)=>
-                    {
-                        if (prop.match(property))
-                        {
-                            prop = prop.split(":");
-                            searchedProperty =  prop[1];
-                        }
-                    })
-                }
-                getted = true;
-            }
-        }
-    });
-    if (!getted&&(property=="remarks"))
-    {
-        scores.forEach((segment)=>
-        {
-            if(segment.match(/remarks[\s\S]*&/)) searchedProperty = segment.match(/remarks[\s\S]*&/).toString().replace(/&$/, "").replace("remarks:", "");
-        })
+        this.date = day.getFullYear()+"-"+(parseInt(day.getMonth()+parseInt(1)))+"-"+day.getDate();
+        this.publications = day.publications;
+        this.films = day.films;
+        this.hours = day.hours;
+        this.minutes = day.minutes;
+        this.visits = day.visits;
+        this.studies = day.studies;
+        this.notes = day.notes;
+        this.ldpbHours = day.ldpbHours;
+        this.ldpbMinutes = day.ldpbMinutes;
     }
-    return searchedProperty;
 }
 
 class Month
@@ -72,9 +42,16 @@ class Month
     constructor(scores, number)
     {
         this.number = parseInt(number.getMonth())+1;
-        this.year = number.getFullYear();        
-        this.scores = scores.split(";");
+        this.year = number.getFullYear();
         this.name = this.getName(this.number);
+        try 
+        {
+            this.scores = JSON.parse(scores);
+        }
+        catch(err)
+        {
+            this.scores = []
+        }
 
         this.days =[];
 
@@ -89,7 +66,7 @@ class Month
         
         this.generateProperties();
 
-        this.file = (parseInt(this.days[1].getMonth())+1) + "-" + this.days[1].getFullYear() + ".txt"
+        this.file = (parseInt(this.days[1].getMonth())+1) + "-" + this.days[1].getFullYear() + ".json"
 
     }
 
@@ -139,143 +116,117 @@ class Month
 
     generateProperties()
     {
-        
-
         for (var i=1;i<=31;i++)
         {
             this.days[i] = new Date(this.year+"-"+this.number+"-"+i);
+            if (this.days[i].getMonth()+1==this.number && this.scores[i] != undefined)
+            {
+                this.days[i].publications = this.scores[i].publications;
+                this.days[i].films = this.scores[i].films;
+                this.days[i].hours = this.scores[i].hours;
+                this.days[i].minutes = this.scores[i].minutes;
+                this.days[i].visits = this.scores[i].visits;
+                this.days[i].studies = this.scores[i].studies;
+                this.days[i].ldpbHours = this.scores[i].ldpbHours;
+                this.days[i].ldpbMinutes = this.scores[i].ldpbMinutes;
+                this.days[i].notes = this.scores[i].notes;
+                this.length = i;
+            }
+            else
+            {
+                this.scores[i] = new DaysToSave(this.days[i]);
+            }
+
+            if (this.scores[0] == undefined)
+            {
+                this.scores[0] = new DaysToSave(this.days[1]);
+            }
+
+
+            this.days[i].publications ??= 0;
+            this.days[i].films ??= 0;
+            this.days[i].hours ??= 0;
+            this.days[i].minutes ??= 0;
+            this.days[i].visits ??= 0;
+            this.days[i].studies ??= 0;
+            this.days[i].ldpbHours ??= 0;
+            this.days[i].ldpbMinutes ??= 0;
+            this.days[i].notes ??= "";
+
+            this.publications += parseInt(this.days[i].publications);
+            this.films += parseInt(this.days[i].films);
+            this.hours += parseInt(this.days[i].hours);
+            this.minutes += parseInt(this.days[i].minutes);
+            this.visits += parseInt(this.days[i].visits);
+            this.studies += parseInt(this.days[i].studies);
+            this.ldpbHours += parseInt(this.days[i].ldpbHours);
+            this.ldpbMinutes += parseInt(this.days[i].ldpbMinutes); 
+
             if (this.days[i].getMonth()+1==this.number)
             {
-                this.days[i].publications = this.days[i].getProperty("publications", this.scores);
-                this.publications += parseInt(this.days[i].publications);
-                this.days[i].films = this.days[i].getProperty("films", this.scores);
-                this.films += parseInt(this.days[i].films);
-                this.days[i].hours = this.days[i].getProperty("hours", this.scores);
-                this.hours += parseInt(this.days[i].hours);
-                this.days[i].minutes = this.days[i].getProperty("minutes", this.scores);
-                this.minutes += parseInt(this.days[i].minutes);
-                this.days[i].visits = this.days[i].getProperty("visits", this.scores);
-                this.visits += parseInt(this.days[i].visits);
-                this.days[i].studies = this.days[i].getProperty("studies", this.scores);
-                this.studies += parseInt(this.days[i].studies);
-                this.days[i].ldpbHours = this.days[i].getProperty("ldpbHours", this.scores);
-                this.ldpbHours += parseInt(this.days[i].ldpbHours);          
-                this.days[i].ldpbMinutes = this.days[i].getProperty("ldpbMinutes", this.scores);
-                this.ldpbMinutes += parseInt(this.days[i].ldpbMinutes);          
-                this.days[i].notes = this.days[i].getProperty("notes", this.scores);
                 this.length = i;
             }
         }
-        this.remarks = this.days[1].getProperty("remarks",this.scores);
+        if (this.scores[0] != undefined)
+        {
+            this.remarks = this.scores[0].notes;
+        }
+        this.remarks ??= "";
+
         if (this.minutes>=60) this.hours += Math.floor(this.minutes/60);
+        if (this.ldpbMinutes>=60) this.ldpbHours += Math.floor(this.ldpbMinutes/60);
     }
 
-    updateScore(property, score, day, alert = true)
-    {
-        if ((score==null || !score || isNaN(score)) && property!="remarks" && property!="notes") score = 0;
-        var updated = false;
-        if (property== "remarks")
+    updateScore(property, score, day, saveAlert = true)
+    {   
+        if (property == "remarks") 
         {
-            this.scores.forEach((segment, i)=>
-            {
-                if (segment.match(property))
-                {
-                    var propBufor = segment.split(":");
-                    propBufor[1] = score;
-                    propBufor[1]+="&";
-                    propBufor[1] = propBufor[1].replace(/;/g, "");
-                    this.scores[i] = propBufor[0]+":"+propBufor[1];
-                    updated = true;
-                }
-            })
-            if (!updated)
-            {
-                this.scores[0]="remarks:"+score.replace(/;/g, "")+";"+this.scores[0];
-                    
-                var scoreBufor = this.scores.join(';');
-                this.scores = scoreBufor.split(";");
-                updated = true;
-            }
+            this.scores[0].notes = score;
+        }
+        else if (property == "notes")
+        {
+            this.scores[day][property] ??= "";
+            this.scores[day].notes = score;
         }
         else
         {
-                if (property == "minutes")
-                {
-                    var allMinutes = parseInt(this.days[day].minutes)+parseInt(score);
-                    var calcHours = Math.floor(allMinutes/60);
-                    score = (allMinutes%60)-parseInt(this.days[day].minutes);
-                }
-                if (property == "ldpbMinutes")
-                {
-                    var ldpbHours = Math.floor((parseInt(this.days[day].ldpbMinutes)+parseInt(score))/60);
-                    this.updateScore("ldpbHours", ldpbHours, day);
-                    score = ((parseInt(this.days[day].ldpbMinutes)+parseInt(score))%60)-parseInt(this.days[day].ldpbMinutes);
-                }
-                this.scores.forEach((date, j)=>
-                {
-                    if (date.match(new RegExp("day:"+day+","))||date.match(new RegExp("day:"+day+'$')))
-                    {
-                        if (property == "notes")
-                        {
-                            if (date.match(/notes[\s\S]*&/))
-                            {
-                                var notesBufor = date.match(/notes[\s\S]*&/).toString()
-                                date = date.replace(notesBufor, "notes:"+score.replace(/;/g, "")+"&");
-                            }
-                            else date +=",notes:"+score.replace(/;/g, "")+"&";
-                            this.scores[j]=date;
-                            updated = true;
-                        }
-                        else
-                        {
-                            date = date.split(",");
-                            var dateBufor = "";
-                            date.forEach((prop, i)=>
-                            {
-                                if (prop.match(property))
-                                {
-                                    prop = prop.split(":")
-                                    if (property!="notes") prop[1] = parseInt(prop[1])+parseInt(score);
-                                    else prop[1] = prop[1]+score;
-                                    prop = prop[0]+":"+prop[1];
-                                    updated = true;
-                                }
-                                dateBufor += prop;
-                                if (i != (date.length-1)) dateBufor +=',';
-                            })
-                            if (!updated)
-                            {
-                                dateBufor +=","+property+":"+score;
-                                updated = true;
-                            }
-                            this.scores[j] = dateBufor;
-                        }
-                    }
-                })
-                if (!updated)
-                {
-                    this.scores[this.scores.length]="day:"+day;
-                    this.updateScore(property, score, day);
-                }
+            this.scores[day][property] ??= 0;
 
+            if (property == "minutes")
+            {
+                this.updateScore("hours", Math.floor((this.scores[day].minutes + parseInt(score))/60), day);
+                score = score%60-60*(Math.floor((this.scores[day].minutes + parseInt(score))/60));
+            }
+            if (property == "ldpbMinutes")
+            {
+                this.updateScore("ldpbHours", Math.floor((this.scores[day].minutes + parseInt(score))/60), day);
+                score = score%60-60*(Math.floor((this.scores[day].minutes + parseInt(score))/60));
+            }
+
+            this.scores[day][property] += parseInt(score);
         }
+        this.generateProperties();
         
-        try{this.generateProperties();}catch(err){alert(err.message)}
-        updated = false;
+
         document.addEventListener("deviceready", () =>
         {
-            fileWrited = false;
             try
             {
-                if (alert==true)document.querySelector("#loadingScreen").style.display = "block";
+                if (saveAlert==true) document.querySelector("#loadingScreen").style.display = "block";
             }
             catch(err){}
-            createNewFile(this.file, this.scores.join(";"));
-        }, {once: true});
-
-        if (property=="minutes"&&calcHours!=0) 
-        {
-            if (fileWrited==true) try{this.updateScore("hours", calcHours, day);}catch(err){alert(err.message)}
+            if (fileWrited==true) 
+            {
+                try
+                {
+                    fileWrited = false;
+                    createNewFile(this.file, this.scores);
+                }
+                catch(err)
+                {
+                    alert(err.message)
+                }
+            }
             else
             {
                 const writing = setInterval(() => 
@@ -284,14 +235,19 @@ class Month
                     {
                         try
                         {
-                            this.updateScore("hours", calcHours, day);
+                            fileWrited = false;
+                            createNewFile(this.file, this.scores);
                             clearInterval(writing);
                         }
-                        catch(err){alert(err.message)}
+                        catch(err)
+                        {
+                            alert(err.message)
+                        }
                     }
                     }, 10);
             }
-        }
+
+        }, {once: true});
     }
     
 }
@@ -299,18 +255,20 @@ class Month
 
 document.addEventListener("deviceready",()=>
 {
-    readCurrentMonthFromFile((parseInt(today.getMonth())+1) + "-" + today.getFullYear() + ".txt", today);
+    readCurrentMonthFromFile((parseInt(today.getMonth())+1) + "-" + today.getFullYear() + ".json", today);
     readTimeBuforFromFile("timeBufor.txt");
+    readSettingsFromFile("settings.json");
 
 }, false);
 
 var today = new Date();
 var currentMonth = "";
-
+var settings = new Object;
 const tx = document.getElementsByTagName("textarea");
+
+
 for (let i = 0; i < tx.length; i++) 
 {
-  //tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px;");
   tx[i].addEventListener("input", OnInput, false);
 }
 

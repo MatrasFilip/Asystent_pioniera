@@ -19,7 +19,7 @@
             Koniec: <input type = time id = "stopHour">
         </div>
         <div id = "timeScore"></div>
-        <div id = "ldpbButton"><span>LDPB</span><img src = "img/buttonOff.png" alt = "buttonOff"></div>
+        <div class = "ldpbButton" id = "ldpbBI"><span>LDPB</span><img src = "img/buttonOff.png" alt = "buttonOff"></div>
         <div id = "timeButton">Potwierdź</div>
     </div>
 
@@ -36,17 +36,19 @@
             <div id = "time">00:00:00</div>
         </div>
 
-        <div class = "property">
+        <div class = "property" id = "hourProp">
             <span class = 'label'>Godziny: </span>    
             <input type = "number" id = "hours" class = "numbInput">
         </div>
 
-        <div class = "property">
+        <div class = "property" id = "minProp">
             <span class = 'label'>Minuty: </span>    
             <input type = "number" id = "minutes" class = "numbInput">
         </div>
 
-        <div class = "property">
+        <div class = "ldpbButton" id = "ldpbBII"><span>LDPB</span><img src = "img/buttonOff.png" alt = "buttonOff"></div>
+
+        <div class = "property" id = "pubProp">
             <span class = 'label'>Publikacje: </span>    
             <input type = "number" id = "publications" class = "numbInput">
         </div>
@@ -98,5 +100,6 @@
     </nav>
     <script src = "js/index.js" type="text/javascript"></script>
     <script src = "js/newScore.js" type="text/javascript"></script>
+    <script src = "js/update.js" type="text/javascript"></script>
 </body>
 </html>

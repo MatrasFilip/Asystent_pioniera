@@ -28,7 +28,11 @@ function writeFile(fileEntry, dataObj)
         fileWriter.onwriteend = function()
         {
             console.log("Successful file write...");
-            try{document.querySelector("#loadingScreen").style.display = "none";}catch(err){}
+            try
+            {
+                setTimeout(function(){document.querySelector("#loadingScreen").style.display = "none"}, 500);
+            }
+            catch(err){alert(err.message)}
             fileWrited = true;
         };
 
@@ -71,7 +75,7 @@ function createNewFile(fileName, fileData)
 
 
 //ustaw obecny miesiąc na fileName
-function readCurrentMonthFromFile(fileName, fileDate)
+function readCurrentMonthFromFile(fileName, fileDate, updateFlag = false)
 {
     try
     {
@@ -85,26 +89,33 @@ function readCurrentMonthFromFile(fileName, fileDate)
 
                     reader.onloadend = function()
                     {
-                        console.log("Successful file read: " + this.result);
-                        currentMonth = new Month(this.result, fileDate);
-                        try {makeRaport();}
-                        catch(err){}
-                        if (currentMonth.number!=1)
-                        var date = new Date (currentMonth.days[1].getFullYear()+"-"+(currentMonth.number-1)+"-1");
+                        if (updateFlag == true)
+                        {
+                            update(this.result, fileDate);
+                        }
                         else
-                        var date = new Date ((currentMonth.days[1].getFullYear()-1)+"-12-1");
+                        {
+                            console.log("Successful file read: " + this.result);
+                            currentMonth = new Month(this.result, fileDate);
+                            try {makeRaport();}
+                            catch(err){}
+                            if (currentMonth.number!=1)
+                            var date = new Date (currentMonth.days[1].getFullYear()+"-"+(currentMonth.number-1)+"-1");
+                            else
+                            var date = new Date ((currentMonth.days[1].getFullYear()-1)+"-12-1");
 
-                        try{readPreviousMonthFromFile((parseInt(date.getMonth())+1) + "-" + date.getFullYear() + ".txt", date);}
-                        catch(err){}
+                            try{readPreviousMonthFromFile((parseInt(date.getMonth())+1) + "-" + date.getFullYear() + ".json", date);}
+                            catch(err){}
 
 
-                        if (currentMonth.number!=12)
-                        var date =  new Date (currentMonth.days[1].getFullYear()+"-"+(currentMonth.number+1)+"-1");
-                        else
-                        var date =  new Date ((currentMonth.days[1].getFullYear()+1)+"-1-1");
+                            if (currentMonth.number!=12)
+                            var date =  new Date (currentMonth.days[1].getFullYear()+"-"+(currentMonth.number+1)+"-1");
+                            else
+                            var date =  new Date ((currentMonth.days[1].getFullYear()+1)+"-1-1");
 
-                        try{readNextMonthFromFile((parseInt(date.getMonth())+1) + "-" + date.getFullYear() + ".txt", date);}
-                        catch(err){}
+                            try{readNextMonthFromFile((parseInt(date.getMonth())+1) + "-" + date.getFullYear() + ".json", date);}
+                            catch(err){}
+                        }
                     };
 
                     reader.readAsText(file);
@@ -221,6 +232,39 @@ function readTimeBuforFromFile(fileName)
                             catch(err){}
                         }
                         else startTime="-";
+                    };
+
+                    reader.readAsText(file);
+
+                }, onErrorReadFile);
+
+            }, onErrorCreateFile);
+        }, onErrorLoadFs);
+
+    }
+    catch(err)
+    {
+        alert(err.message);
+    }
+}
+
+function readSettingsFromFile(fileName)
+{
+    try
+    {
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dirEntry)
+        {
+            dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
+            {
+                fileEntry.file(function (file)
+                {
+                    var reader = new FileReader();
+
+                    reader.onloadend = function()
+                    {
+                        console.log("Successful file read: " + this.result);
+                        settings = JSON.parse(this.result);
+                        try{checkUpdates();}catch(err){}
                     };
 
                     reader.readAsText(file);

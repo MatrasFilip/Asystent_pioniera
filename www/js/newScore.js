@@ -178,7 +178,15 @@ document.querySelectorAll('input[type="number"], input[type="text"]').forEach((i
             catch(err){}
         }
         else
-        {try{currentMonth.updateScore(input.id, input.value, today.getDate());}catch(err){}}
+        {
+            if (document.querySelector("#ldpbBII img").alt == "buttonOff") {try{currentMonth.updateScore(input.id, input.value, today.getDate());}catch(err){alert(err.message)}}
+            else 
+            {
+                if (input.id=="hours") {try{currentMonth.updateScore("ldpbHours", input.value, today.getDate());}catch(err){alert(err.message)}}
+                if (input.id=="minutes") {try{currentMonth.updateScore("ldpbMinutes", input.value, today.getDate());}catch(err){alert(err.message)}}
+            
+            }
+        }
         input.blur();
         input.value = "";
     })
@@ -195,7 +203,7 @@ document.querySelector("#timeButton").addEventListener("click",()=>
     {
         document.querySelector("#timeAlert").style.display = "none";
         document.querySelector("#time").innerHTML = "00:00:00";
-        if (document.querySelector("#ldpbButton img").alt == "buttonOff")
+        if (document.querySelector("#ldpbBI img").alt == "buttonOff")
         {
             try{currentMonth.updateScore("hours", document.querySelector("#timeScore").innerHTML.split("<br><br>")[0].split(" ")[0], today.getDate());}catch(err){alert(err.message)}
             if (fileWrited==true) try{currentMonth.updateScore("minutes", document.querySelector("#timeScore").innerHTML.split("<br><br>")[1].split(" ")[0], today.getDate());}catch(err){alert(err.message)}
@@ -222,16 +230,30 @@ document.querySelector("#timeButton").addEventListener("click",()=>
         }
     });
 
-document.querySelector("#ldpbButton").addEventListener("click",()=>
+document.querySelector("#ldpbBI").addEventListener("click",()=>
 {
-    if (document.querySelector("#ldpbButton img").alt == "buttonOff")
+    if (document.querySelector("#ldpbBI img").alt == "buttonOff")
     {
-        document.querySelector("#ldpbButton img").src = "img/buttonOn.png";
-        document.querySelector("#ldpbButton img").alt = "buttonOn";
+        document.querySelector("#ldpbBI img").src = "img/buttonOn.png";
+        document.querySelector("#ldpbBI img").alt = "buttonOn";
     }
     else
     {
-        document.querySelector("#ldpbButton img").src = "img/buttonOff.png";
-        document.querySelector("#ldpbButton img").alt = "buttonOff";
+        document.querySelector("#ldpbBI img").src = "img/buttonOff.png";
+        document.querySelector("#ldpbBI img").alt = "buttonOff";
+    }
+});
+
+document.querySelector("#ldpbBII").addEventListener("click",()=>
+{
+    if (document.querySelector("#ldpbBII img").alt == "buttonOff")
+    {
+        document.querySelector("#ldpbBII img").src = "img/buttonOn.png";
+        document.querySelector("#ldpbBII img").alt = "buttonOn";
+    }
+    else
+    {
+        document.querySelector("#ldpbBII img").src = "img/buttonOff.png";
+        document.querySelector("#ldpbBII img").alt = "buttonOff";
     }
 });
