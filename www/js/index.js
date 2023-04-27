@@ -298,12 +298,20 @@ window.addEventListener("scroll", ()=>
     if (window.pageYOffset > scrollYPosition)
     {
         document.querySelector("header").style.top = "-60px";
-        document.querySelector("nav").style.bottom = "-55px";
+        try
+        {
+            document.querySelector("nav").style.bottom = "-55px";
+        }
+        catch(err){};
     }
     if (window.pageYOffset < scrollYPosition)
     {
         document.querySelector("header").style.top = "0px";
-        document.querySelector("nav").style.bottom = "0px";
+        try
+        {
+            document.querySelector("nav").style.bottom = "0px";
+        }
+        catch(err){};
     };
     scrollYPosition = window.pageYOffset;
 });
