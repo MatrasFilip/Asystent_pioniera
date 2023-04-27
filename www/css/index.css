@@ -7,7 +7,7 @@ body
 header
 {
     height: 60px;
-    background-color: #d8d8d8;
+    background-color: #d8d8d8!important;
     position: fixed;
     width: 100vw;
     margin: 0;
@@ -172,4 +172,31 @@ nav a:hover
     display: none;
     background-color: white;
     z-index: 1;
+}
+
+#settingsIcon
+{
+    float: right;
+    cursor: default;
+}
+
+#settingsIcon img
+{
+    height: 25px;
+    margin-top: calc((60px - 25px)/2 + 3px);
+    margin-right: 10px;
+    border-radius: 100%;
+}
+
+#settingsIcon img:hover
+{
+    background-color:#a8a8a8;
+}
+
+h4
+{
+    text-transform: uppercase;
+    color: #666666;
+    font-size: 90%;
+    font-weight: 400;
 }

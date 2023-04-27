@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "css/index.css">
+    <link rel = "stylesheet" href = "css/history.css">
+    <link rel = "stylesheet" href = "css/settings.css">
+    <title>Ustawienia</title>
+    <script src = "cordova.js" type="text/javascript"></script>
+    <script src = "js/manageFiles.js" type="text/javascript"></script>
+</head>
+<body>
+    <header>
+        <a href = "index.html"><img src = "img/back.png"></a>
+        <h3>Asystent pioniera</h3>
+    </header>
+    <main>
+        
+        <div class = "setOption" id = "backUp">
+            <h4>Kopia zapasowa</h4>
+
+            <div class = "setLabel" id = "copyCreator">Wykonaj kopię</div>
+
+            <div class = "setLabel" id = "copyAccept">Zgraj kopię do aplikacji
+                <br>
+                <span class = "setDes">(musi być dostępna w folderze 'Download' na urządzeniu)</span>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class = "setOption" id = "donate">
+            <h4>Wsparcie aplikacji</h4>
+            <img src = "img/donate.png">
+
+            <div class = "setLabel" id = "accNum">
+                <span class = "setDes">69 1020 5138 0000 9702 0225 0454</span><br>
+                <span class = "setDes" id = "accNumInfo">Kliknij, aby skopiować numer do schowka</span>
+            </div>
+            <br>
+            
+        </div>
+
+    </main>
+    
+    <script src = "js/index.js"></script>
+    <script src = "js/history.js" type="text/javascript"></script>
+    <script src = "js/settings.js" type="text/javascript"></script>
+</body>
+</html>

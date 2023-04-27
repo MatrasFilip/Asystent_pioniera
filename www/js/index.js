@@ -192,6 +192,10 @@ class Month
         {
             this.scores[day][property] ??= 0;
 
+            this.scores[day][property] = parseInt(this.scores[day][property]);
+
+            score = parseInt(score);
+
             if (property == "minutes")
             {
                 this.updateScore("hours", Math.floor((this.scores[day].minutes + parseInt(score))/60), day);
@@ -259,6 +263,12 @@ document.addEventListener("deviceready",()=>
     readTimeBuforFromFile("timeBufor.txt");
     readSettingsFromFile("settings.json");
 
+    document.addEventListener("backbutton", ()=>
+    {
+        if (window.location.href!="file:///android_asset/www/index.html") window.location.assign("index.html");
+        else navigator.app.exitApp();
+    });
+
 }, false);
 
 var today = new Date();
@@ -312,13 +322,13 @@ document.querySelector("main").addEventListener("touchmove", (e)=>
         {
             switch(window.location.href)
             {
-                case "https://localhost/index.html": 
-                window.location.assign("../raport.html");
+                case "file:///android_asset/www/index.html": 
+                window.location.assign("raport.html");
                 break;
-                case "https://localhost/raport.html": 
+                case "file:///android_asset/www/raport.html": 
                 break;
-                case "https://localhost/history.html": 
-                window.location.assign("../index.html");
+                case "file:///android_asset/www/history.html": 
+                window.location.assign("index.html");
                 break;
             }
         }, {once : true});
@@ -329,23 +339,15 @@ document.querySelector("main").addEventListener("touchmove", (e)=>
         {
             switch(window.location.href)
             {
-                case "https://localhost/index.html": 
-                window.location.assign("../history.html");
+                case "file:///android_asset/www/index.html": 
+                window.location.assign("history.html");
                 break;
-                case "https://localhost/raport.html": 
-                window.location.assign("../index.html");
+                case "file:///android_asset/www/raport.html": 
+                window.location.assign("index.html");
                 break;
-                case "https://localhost/history.html":
+                case "file:///android_asset/www/history.html":
                 break;
             }
         }, {once : true});   
     }
-});
-
-document.addEventListener("deviceready", ()=>
-{
-    document.addEventListener("backbutton", ()=>
-    {
-        if (window.location.href!="https://localhost/index.html") window.location.assign("../index.html");
-    });
 });

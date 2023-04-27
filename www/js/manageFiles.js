@@ -1,18 +1,34 @@
 var fileWrited = true;
 //errors
-function onErrorLoadFs()
+function onErrorLoadFs(e)
 {
-    alert("error with requestFileSystem");
+    alert("Aplikacja potrzebuje dostępu do pamięci! Proszę udzielić go w ustawieniach telefonu");
+    navigator.app.exitApp();
+    try
+            {
+                setTimeout(function(){document.querySelector("#loadingScreen").style.display = "none"}, 500);
+            }
+            catch(err){}
 }
 
-function onErrorCreateFile()
+function onErrorCreateFile(e)
 {
-    alert("error with getFile");
+    alert("error number: "+e.code);
+    try
+            {
+                setTimeout(function(){document.querySelector("#loadingScreen").style.display = "none"}, 500);
+            }
+            catch(err){}
 }
 
-function onErrorReadFile()
+function onErrorReadFile(e)
 {
-    alert("error with read file");
+    alert("error number: "+e.code);
+    try
+            {
+                setTimeout(function(){document.querySelector("#loadingScreen").style.display = "none"}, 500);
+            }
+            catch(err){}
 }
 
 
@@ -63,6 +79,7 @@ function createNewFile(fileName, fileData)
             dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
             {
                 writeFile(fileEntry, fileData);
+
             }, onErrorCreateFile);
         }, onErrorLoadFs);
 
@@ -263,8 +280,119 @@ function readSettingsFromFile(fileName)
                     reader.onloadend = function()
                     {
                         console.log("Successful file read: " + this.result);
-                        settings = JSON.parse(this.result);
+                        try{settings = JSON.parse(this.result);}catch(err){}
                         try{checkUpdates();}catch(err){}
+                    };
+
+                    reader.readAsText(file);
+
+                }, onErrorReadFile);
+
+            }, onErrorCreateFile);
+        }, onErrorLoadFs);
+
+    }
+    catch(err)
+    {
+        alert(err.message);
+    }
+}
+
+function createBackup(fileName)
+{
+    var fileList = [];
+    var fileData = [];
+    try
+    {
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (dirEntry)
+        {
+            var reader = dirEntry.createReader();
+
+            reader.readEntries(function(entries)
+            {
+                entries.forEach(element => 
+                {
+                    var pattern = /-[0-9][0-9][0-9][0-9].json/;
+                    if (element.name.match(pattern)!=null) fileList.push(element.name);
+                });
+
+                fileList.forEach((fileN, index)=>
+                {
+                    dirEntry.getFile(fileN, { create: true, exclusive: false }, function (fileEntry) 
+                    {
+                        fileEntry.file(function (file)
+                        {
+                            var reader = new FileReader();
+
+                            reader.onloadend = function()
+                            {
+                                if (this.result!="") fileData.push(this.result);
+
+
+                                if (index==fileList.length-1)
+                                {
+                                    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory+"Download/", function (dirEntry) {
+            
+            
+                                        dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
+                                        {
+                                            writeFile(fileEntry, fileData);
+                                            navigator.notification.confirm("Kopia zapisana na urządzeniu. Czy chcesz ją udostępnić?", function(buttonIndex)
+                                            {
+                                                if (buttonIndex==1) window.plugins.socialsharing.shareWithOptions(
+                                                    {
+                                                        message: "Kopia zapasowa aplikacji Asystent pioniera",
+                                                        files:[cordova.file.externalRootDirectory+"Download/"+fileName]
+                                                    }, null, function(result)
+                                                    {
+                                                        navigator.notification.alert("Nie udało się znaleźć kopii na urządzeniu. Sprawdź folder 'pobrane', lub zezwól aplikacji na dostęp do pamięci urządzenia. Następnie spróbuj ponownie", null, "BŁĄD: '"+result+"'")
+                                                    });
+                                            }, "Co dalej?", ["Tak", "Nie"])
+                                        
+                                        }, onErrorCreateFile);
+                                    }, onErrorLoadFs);
+                                }
+                            };
+
+                            reader.readAsText(file);
+
+                        }, onErrorReadFile);
+
+                    }, onErrorCreateFile);
+                });
+                
+            });
+
+            
+
+            
+        }, onErrorLoadFs);
+        
+        
+    }
+    catch(err)
+    {
+        alert(err.message);
+    }
+}
+
+function readBackUp(fileName)
+{
+    try
+    {
+        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory+"Download/", function (dirEntry)
+        {
+            dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
+            {
+                fileEntry.file(function (file)
+                {
+                    var reader = new FileReader();
+
+                    reader.onloadend = function()
+                    {
+                        console.log("Successful file read: " + this.result);
+                        try{backUp = JSON.parse(this.result);}catch(err){}
+                        try{backUpImplement();}catch(err){}
                     };
 
                     reader.readAsText(file);

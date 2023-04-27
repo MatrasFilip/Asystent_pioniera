@@ -1,0 +1,79 @@
+header a
+{
+    float: left;
+    margin: calc((60px - 20px)/2 + 3px);;
+}
+
+header a img
+{
+    height: 20px;
+    border-radius: 100%;
+    cursor: default;
+}
+
+header a img:hover
+{
+    background-color:#c0c0c0;
+}
+body
+{
+    background-color: #f0f0f0;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.setLabel
+{
+    width: 100%;
+    padding: 15px 15px;
+}
+
+.setLabel:active
+{
+    background-color: #c0c0c0;
+}
+
+.setDes
+{
+    font-size: 80%;
+    color: #555;
+}
+
+.setOption
+{
+    margin-bottom: 20px;
+}
+
+hr
+{
+    margin: 0 5px;
+    margin-bottom: 20px;
+    border: 1px solid #c0c0c0;
+}
+
+.setOption h4
+{
+    margin-left: 10px;
+}
+
+main
+{
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+}
+
+#accNum
+{
+    float: left;
+    width: auto;
+}
+
+#donate img
+{
+    width: 50px;
+    float: left;
+    margin-left: 10px;
+}
