@@ -54,7 +54,11 @@ function writeFile(fileEntry, dataObj)
 
         fileWriter.onerror = function (e)
         {
-            alert("Failed file write: " + e.toString());
+            if (e.target.error.code==2)
+            {
+                alert("Aplikacja potrzebuje dostępu do pamięci! Proszę udzielić go w ustawieniach telefonu");
+                navigator.app.exitApp();
+            }
         };
 
         // If data object is not passed in,
@@ -337,17 +341,20 @@ function createBackup(fileName)
                                         dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
                                         {
                                             writeFile(fileEntry, fileData);
-                                            navigator.notification.confirm("Kopia zapisana na urządzeniu. Czy chcesz ją udostępnić?", function(buttonIndex)
+                                            if (fileName!="")
                                             {
-                                                if (buttonIndex==1) window.plugins.socialsharing.shareWithOptions(
-                                                    {
-                                                        message: "Kopia zapasowa aplikacji Asystent pioniera",
-                                                        files:[cordova.file.externalRootDirectory+"Download/"+fileName]
-                                                    }, null, function(result)
-                                                    {
-                                                        navigator.notification.alert("Nie udało się znaleźć kopii na urządzeniu. Sprawdź folder 'pobrane', lub zezwól aplikacji na dostęp do pamięci urządzenia. Następnie spróbuj ponownie", null, "BŁĄD: '"+result+"'")
-                                                    });
-                                            }, "Co dalej?", ["Tak", "Nie"])
+                                                navigator.notification.confirm("Kopia zapisana na urządzeniu. Czy chcesz ją udostępnić?", function(buttonIndex)
+                                                {
+                                                    if (buttonIndex==1) window.plugins.socialsharing.shareWithOptions(
+                                                        {
+                                                            message: "Kopia zapasowa aplikacji Asystent pioniera",
+                                                            files:[cordova.file.externalRootDirectory+"Download/"+fileName]
+                                                        }, null, function(result)
+                                                        {
+                                                            navigator.notification.alert("Nie udało się znaleźć kopii na urządzeniu. Sprawdź folder 'pobrane', lub zezwól aplikacji na dostęp do pamięci urządzenia. Następnie spróbuj ponownie", null, "BŁĄD: '"+result+"'")
+                                                        });
+                                                }, "Co dalej?", ["Tak", "Nie"])
+                                            }
                                         
                                         }, onErrorCreateFile);
                                     }, onErrorLoadFs);
@@ -378,9 +385,7 @@ function createBackup(fileName)
 
 function readBackUp(fileName)
 {
-    try
-    {
-        window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory+"Download/", function (dirEntry)
+    window.resolveLocalFileSystemURL(cordova.file.externalRootDirectory+"Download/", function (dirEntry)
         {
             dirEntry.getFile(fileName, { create: true, exclusive: false }, function (fileEntry) 
             {
@@ -395,16 +400,21 @@ function readBackUp(fileName)
                         try{backUpImplement();}catch(err){}
                     };
 
+                    reader.onerror = function(e)
+                    {
+                        alert("Aplikacja potrzebuje dostępu do pamięci! Proszę udzielić go w ustawieniach telefonu");
+                        navigator.app.exitApp();
+                    };
+
                     reader.readAsText(file);
 
                 }, onErrorReadFile);
 
             }, onErrorCreateFile);
         }, onErrorLoadFs);
+}
 
-    }
-    catch(err)
-    {
-        alert(err.message);
-    }
+function testPermissions()
+{
+    createBackup("");
 }

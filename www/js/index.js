@@ -142,7 +142,6 @@ class Month
                 this.scores[0] = new DaysToSave(this.days[1]);
             }
 
-
             this.days[i].publications ??= 0;
             this.days[i].films ??= 0;
             this.days[i].hours ??= 0;
@@ -167,10 +166,8 @@ class Month
                 this.length = i;
             }
         }
-        if (this.scores[0] != undefined)
-        {
-            this.remarks = this.scores[0].notes;
-        }
+
+        this.remarks = this.scores[0].notes;
         this.remarks ??= "";
 
         if (this.minutes>=60) this.hours += Math.floor(this.minutes/60);
@@ -259,6 +256,7 @@ class Month
 
 document.addEventListener("deviceready",()=>
 {
+    testPermissions();
     readCurrentMonthFromFile((parseInt(today.getMonth())+1) + "-" + today.getFullYear() + ".json", today);
     readTimeBuforFromFile("timeBufor.txt");
     readSettingsFromFile("settings.json");
