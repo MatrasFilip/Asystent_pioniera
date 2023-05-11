@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="MatrasFilip.Asystentpioniera" version="1.0.0">
+<?xml version='1.0.2' encoding='utf-8'?>
+<widget id="pl.fill_up_matrasfilip.Asystentpioniera" version="1.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <name>Asystent pioniera</name>
     <description>Statystyki służby dla Świadków Jehowy</description>
-    <author email="filip.matras@gmail.com">
+    <author email="fillup.05.2023@gmail.com">
         Filip Matras
     </author>
     <allow-navigation href = "*"/>
@@ -13,4 +13,5 @@
     <icon src = "www/img/logo.png"/>
     <preference name="AndroidInsecureFileModeEnabled" value="true" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="android-targetSdkVersion" value="32" />
 </widget>

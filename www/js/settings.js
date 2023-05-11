@@ -6,12 +6,13 @@ function backUpImplement()
     {
         month = JSON.parse(month);
         createNewFile((parseInt(new Date(month[0].date).getMonth())+1)+"-"+new Date(month[0].date).getFullYear()+".json", JSON.stringify(month));
+        navigator.notification.alert("Udało się odczytać kopię!", null, "Sukces")
     });
 }
 
 document.querySelector("#copyCreator").addEventListener("click", ()=>
 {
-    createBackup("asystentPionieraBackUp.json");
+    createBackup("asystentPionieraBackUp");
 });
 
 document.querySelector("#copyAccept").addEventListener("click", ()=>
@@ -19,7 +20,7 @@ document.querySelector("#copyAccept").addEventListener("click", ()=>
     
     navigator.notification.confirm("Czy jesteś pewien? Dane z aplikacji zostaną nadpisane?", function(buttonIndex)
         {
-            if (buttonIndex==1) readBackUp("asystentPionieraBackUp.json");
+            if (buttonIndex==1) readBackUp("asystentPionieraBackUp");
         }, "Potwierdź", ["Tak", "Nie"]);
 });
 
